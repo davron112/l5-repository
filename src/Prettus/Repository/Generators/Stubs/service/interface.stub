@@ -2,6 +2,8 @@
 
 $NAMESPACE$
 
+use App\Models\$CLASS$;
+
 /**
  * Interface $CLASS$Service.
  *
