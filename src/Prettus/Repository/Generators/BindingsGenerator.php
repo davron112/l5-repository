@@ -33,7 +33,7 @@ class BindingsGenerator extends Generator
         $repositoryEloquent = '\\' . $this->getEloquentRepository() . "::class";
         $serviceEntity = '\\' . $this->getEntityService() . "::class";
         \File::put($this->getPath(), str_replace($this->bindPlaceholder, "\$this->app->bind({$repositoryInterface}, $repositoryEloquent);" . PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
-        \File::put($this->getPath(), str_replace($this->bindPlaceholder, "\$this->app->bind({$serviceInterface}, $serviceEntity);" . PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
+        \File::put($this->getServicePath(), str_replace($this->bindPlaceholder, "\$this->app->bind({$serviceInterface}, $serviceEntity);" . PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
     }
 
     /**
@@ -42,6 +42,16 @@ class BindingsGenerator extends Generator
      * @return string
      */
     public function getPath()
+    {
+        return $this->getBasePath() . '/Providers/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '.php';
+    }
+
+    /**
+     * Get destination path for generated file.
+     *
+     * @return string
+     */
+    public function getServicePath()
     {
         return $this->getBasePath() . '/Providers/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '.php';
     }
