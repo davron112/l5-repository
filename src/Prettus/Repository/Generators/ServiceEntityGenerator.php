@@ -45,7 +45,7 @@ class ServiceEntityGenerator extends Generator
      */
     public function getPath()
     {
-        return $this->getBasePath() . '/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '/' . $this->getName() . 'RepositoryEloquent.php';
+        return $this->getBasePath() . '/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '/' . $this->getName() . 'ServiceEntity.php';
     }
 
     /**
@@ -65,18 +65,17 @@ class ServiceEntityGenerator extends Generator
      */
     public function getReplacements()
     {
-        $repository = parent::getRootNamespace() . parent::getConfigGeneratorClassPath('interfaces') . '\\' . $this->name . 'Repository;';
-        $repository = str_replace([
+        $service = parent::getRootNamespace() . parent::getConfigGeneratorClassPath('service_interfaces') . '\\' . $this->name . 'Service;';
+        $service = str_replace([
             "\\",
             '/'
-        ], '\\', $repository);
+        ], '\\', $service);
 
         return array_merge(parent::getReplacements(), [
             'fillable'      => $this->getFillable(),
             'use_validator' => $this->getValidatorUse(),
             'validator'     => $this->getValidatorMethod(),
-            'repository'    => $repository,
-            'model'         => isset($this->options['model']) ? $this->options['model'] : ''
+            'service'       => $service
         ]);
     }
 

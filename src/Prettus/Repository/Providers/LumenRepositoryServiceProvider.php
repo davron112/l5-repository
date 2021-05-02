@@ -25,6 +25,7 @@ class LumenRepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands('Prettus\Repository\Generators\Commands\RepositoryCommand');
+        $this->commands('Prettus\Repository\Generators\Commands\ServiceCommand');
         $this->app->register('Prettus\Repository\Providers\EventServiceProvider');
     }
 

@@ -45,6 +45,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands('Prettus\Repository\Generators\Commands\RepositoryCommand');
+        $this->commands('Prettus\Repository\Generators\Commands\ServiceCommand');
         $this->commands('Prettus\Repository\Generators\Commands\TransformerCommand');
         $this->commands('Prettus\Repository\Generators\Commands\PresenterCommand');
         $this->commands('Prettus\Repository\Generators\Commands\EntityCommand');
