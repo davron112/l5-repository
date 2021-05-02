@@ -1,0 +1,36 @@
+<?php
+
+$NAMESPACE$
+
+/**
+ * Interface $CLASS$Service.
+ *
+ * @package $NAMESPACE$
+ */
+interface $CLASS$Service extends BaseService
+{
+    /**
+     * Store a newly created resource in storage
+     *
+     * @param array $data
+     * @return $CLASS$
+     */
+    public function store(array $data);
+
+    /**
+     * Update block in the storage.
+     *
+     * @param  int  $id
+     * @param  array  $data
+     * @return $CLASS$
+     */
+    public function update($id, array $data);
+
+    /**
+     * Update block in the storage.
+     *
+     * @param  int  $id
+     * @return bool
+     */
+    public function delete($id);
+}

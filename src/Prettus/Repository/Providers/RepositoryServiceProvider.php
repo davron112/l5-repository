@@ -26,7 +26,9 @@ class RepositoryServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../../../resources/config/repository.php' => config_path('repository.php')
+            __DIR__ . '/../../../resources/config/repository.php' => config_path('repository.php'),
+            __DIR__ . '/../Generators/Stubs/service/base.stub' => app_path(str_replace('\\', '/', config('repository.generator.paths.services', 'Services') . '\BaseService.php')),
+            __DIR__ . '/../Generators/Stubs/service/base_interface.stub' => app_path(str_replace('\\', '/', config('repository.generator.paths.service_interfaces', 'Services\Contracts') . '\BaseService.php')),
         ]);
 
         $this->mergeConfigFrom(__DIR__ . '/../../../resources/config/repository.php', 'repository');

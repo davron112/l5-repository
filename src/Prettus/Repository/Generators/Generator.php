@@ -206,8 +206,14 @@ abstract class Generator
             case ('repositories' === $class):
                 $path = config('repository.generator.paths.repositories', 'Repositories');
                 break;
+            case ('services' === $class):
+                $path = config('repository.generator.paths.services', 'Services');
+                break;
             case ('interfaces' === $class):
                 $path = config('repository.generator.paths.interfaces', 'Repositories');
+                break;
+            case ('service_interfaces' === $class):
+                $path = config('repository.generator.paths.service_interfaces', 'Services\Contracts');
                 break;
             case ('presenters' === $class):
                 $path = config('repository.generator.paths.presenters', 'Presenters');

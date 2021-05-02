@@ -29,8 +29,11 @@ class BindingsGenerator extends Generator
         // Add entity repository binding to the repository service provider
         $provider = \File::get($this->getPath());
         $repositoryInterface = '\\' . $this->getRepository() . "::class";
+        $serviceInterface = '\\' . $this->getService() . "::class";
         $repositoryEloquent = '\\' . $this->getEloquentRepository() . "::class";
+        $serviceEntity = '\\' . $this->getEntityService() . "::class";
         \File::put($this->getPath(), str_replace($this->bindPlaceholder, "\$this->app->bind({$repositoryInterface}, $repositoryEloquent);" . PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
+        \File::put($this->getPath(), str_replace($this->bindPlaceholder, "\$this->app->bind({$serviceInterface}, $serviceEntity);" . PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
     }
 
     /**
@@ -83,6 +86,25 @@ class BindingsGenerator extends Generator
     }
 
     /**
+     * Gets repository full class name
+     *
+     * @return string
+     */
+    public function getService()
+    {
+        $serviceGenerator = new ServiceInterfaceGenerator([
+            'name' => $this->name,
+        ]);
+
+        $service = $serviceGenerator->getRootNamespace() . '\\' . $serviceGenerator->getName();
+
+        return str_replace([
+            "\\",
+            '/'
+        ], '\\', $repository) . 'Service';
+    }
+
+    /**
      * Gets eloquent repository full class name
      *
      * @return string
@@ -99,6 +121,25 @@ class BindingsGenerator extends Generator
             "\\",
             '/'
         ], '\\', $repository) . 'RepositoryEloquent';
+    }
+
+    /**
+     * Gets eloquent repository full class name
+     *
+     * @return string
+     */
+    public function getEntityService()
+    {
+        $serviceGenerator = new ServiceEntityGenerator([
+            'name' => $this->name,
+        ]);
+
+        $service = $serviceGenerator->getRootNamespace() . '\\' . $serviceGenerator->getName();
+
+        return str_replace([
+            "\\",
+            '/'
+        ], '\\', $repository) . 'ServiceEntity';
     }
 
     /**
@@ -121,7 +162,9 @@ class BindingsGenerator extends Generator
 
         return array_merge(parent::getReplacements(), [
             'repository' => $this->getRepository(),
+            'service' => $this->getService(),
             'eloquent' => $this->getEloquentRepository(),
+            'entity' => $this->getEntityService(),
             'placeholder' => $this->bindPlaceholder,
         ]);
     }

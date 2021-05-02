@@ -232,15 +232,17 @@ return [
         'rootNamespace' => 'App\\',
         'stubsOverridePath' => app()->path(),
         'paths'         => [
-            'models'       => 'Entities',
-            'repositories' => 'Repositories',
-            'interfaces'   => 'Repositories',
-            'transformers' => 'Transformers',
-            'presenters'   => 'Presenters',
-            'validators'   => 'Validators',
-            'controllers'  => 'Http/Controllers',
-            'provider'     => 'RepositoryServiceProvider',
-            'criteria'     => 'Criteria'
+            'models'                => 'Models',
+            'services'              => 'Services',
+            'repositories'          => 'Repositories',
+            'service_interfaces'    => 'Services\Contracts',
+            'interfaces'            => 'Repositories\Contracts',
+            'transformers'          => 'Transformers',
+            'presenters'            => 'Presenters',
+            'validators'            => 'Validators',
+            'controllers'           => 'Http/Controllers/Api/v1',
+            'provider'              => 'RepositoryServiceProvider',
+            'criteria'              => 'Criteria'
         ]
     ]
 ];

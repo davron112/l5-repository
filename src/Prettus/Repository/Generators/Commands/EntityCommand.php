@@ -90,6 +90,14 @@ class EntityCommand extends Command
             '--force'     => $this->option('force')
         ]);
 
+        $this->call('make:service', [
+            'name'        => $this->argument('name'),
+            '--fillable'  => $this->option('fillable'),
+            '--rules'     => $this->option('rules'),
+            '--validator' => $validator,
+            '--force'     => $this->option('force')
+        ]);
+
         $this->call('make:bindings', [
             'name'    => $this->argument('name'),
             '--force' => $this->option('force')

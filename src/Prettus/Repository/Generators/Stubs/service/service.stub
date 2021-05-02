@@ -1,0 +1,149 @@
+<?php
+
+$NAMESPACE$
+
+use Exception;
+use App\Models\$CLASS$;
+use Illuminate\Log\Logger;
+use Illuminate\Database\DatabaseManager;
+use App\Repositories\Contracts\$CLASS$Repository;
+use App\Services\Contracts\$CLASS$Service as $CLASS$ServiceInterface;
+
+/**
+ * @method bool destroy
+ */
+class $CLASS$Service  extends BaseService implements $CLASS$ServiceInterface
+{
+
+    /**
+     * @var DatabaseManager $databaseManager
+     */
+    protected $databaseManager;
+
+    /**
+     * @var $CLASS$Repository $repository
+     */
+    protected $repository;
+
+    /**
+     * Language $language
+     */
+    protected $language;
+
+    /**
+     * @var Logger $logger
+     */
+    protected $logger;
+
+    /**
+     * $CLASS$ constructor.
+     *
+     * @param DatabaseManager $databaseManager
+     * @param $CLASS$Repository $repository
+     * @param Logger $logger
+     */
+    public function __construct(
+        DatabaseManager $databaseManager,
+        $CLASS$Repository $repository,
+        Logger $logger
+    ) {
+
+        $this->databaseManager     = $databaseManager;
+        $this->repository     = $repository;
+        $this->logger     = $logger;
+    }
+
+    /**
+     * Create $CLASS$
+     *
+     * @param array $data
+     * @return $CLASS$
+     * @throws \Exception
+     */
+    public function store(array $data)
+    {
+        $this->beginTransaction();
+        try {
+            $model = $this->repository->newInstance();
+
+            $model->fill($data);
+
+            if (!$model->save()) {
+                throw new Exception('$CLASS$ was not saved to the database.');
+            }
+
+            $this->logger->info('$CLASS$ successfully saved.', ['model_id' => $model->id]);
+        } catch (Exception $e) {
+            $this->rollback($e, 'An error occurred while storing an ', [
+                'data' => $data,
+            ]);
+        }
+
+        $this->commit();
+        return $model;
+    }
+
+    /**
+     * Update block in the storage.
+     *
+     * @param  int  $id
+     * @param  array  $data
+     *
+     * @return $CLASS$
+     *
+     * @throws
+     */
+    public function update($id, array $data)
+    {
+        $this->beginTransaction();
+
+        try {
+            $model = $this->repository->find($id);
+            if (!$model->update($data)) {
+                throw new Exception('An error occurred while updating a $CLASS$');
+            }
+
+            $this->logger->info('$CLASS$  was successfully updated.');
+        } catch (Exception $e) {
+            $this->rollback($e, 'An error occurred while updating an articles.', [
+                'id'   => $id,
+                'data' => $data,
+            ]);
+        }
+        $this->commit();
+        return $model;
+    }
+    /**
+     * Delete block in the storage.
+     *
+     * @param  int  $id
+     *
+     * @return bool
+     *
+     * @throws
+     */
+    public function delete($id)
+    {
+
+        $this->beginTransaction();
+
+        try {
+            $bufferCategory = [];
+            $model = $this->repository->find($id);
+
+            if (!$model->delete()) {
+                throw new Exception(
+                    '$CLASS$ and  translations was not deleted from database.'
+                );
+            }
+            $this->logger->info('$CLASS$  was successfully deleted from database.');
+        } catch (Exception $e) {
+            $this->rollback($e, 'An error occurred while deleting an $CLASS$.', [
+                'id'   => $id,
+            ]);
+        }
+        $this->commit();
+        return true;
+    }
+
+}
