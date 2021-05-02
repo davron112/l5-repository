@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use $APPNAME$Http\Requests\$CLASS$CreateRequest;
 use $APPNAME$Http\Requests\$CLASS$UpdateRequest;
 $REPOSITORY$
+$SERVICE$
 $VALIDATOR$
 
 /**
@@ -31,15 +32,21 @@ class $CONTROLLER$Controller extends Controller
     protected $validator;
 
     /**
+     * @var $CLASS$Service
+     */
+    protected $service;
+
+    /**
      * $CONTROLLER$Controller constructor.
      *
      * @param $CLASS$Repository $repository
      * @param $CLASS$Validator $validator
      */
-    public function __construct($CLASS$Repository $repository, $CLASS$Validator $validator)
+    public function __construct($CLASS$Repository $repository, $CLASS$Validator $validator, $CLASS$Service $service)
     {
         $this->repository = $repository;
         $this->validator  = $validator;
+        $this->service    = $service;
     }
 
     /**
@@ -72,7 +79,7 @@ class $CONTROLLER$Controller extends Controller
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
 
-            $$SINGULAR$ = $this->repository->create($request->all());
+            $$SINGULAR$ = $this->service->store($request->all());
 
             $response = [
                 'message' => '$CLASS$ created.',
@@ -137,7 +144,7 @@ class $CONTROLLER$Controller extends Controller
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
-            $$SINGULAR$ = $this->repository->update($request->all(), $id);
+            $$SINGULAR$ = $this->service->update($id, $request->all());
 
             $response = [
                 'message' => '$CLASS$ updated.',
@@ -165,7 +172,7 @@ class $CONTROLLER$Controller extends Controller
      */
     public function destroy($id)
     {
-        $deleted = $this->repository->delete($id);
+        $deleted = $this->service->delete($id);
 
         return response()->json([
             'message' => '$CLASS$ deleted.',

@@ -94,6 +94,7 @@ class ControllerGenerator extends Generator
             'singular'   => $this->getSingularName(),
             'validator'  => $this->getValidator(),
             'repository' => $this->getRepository(),
+            'service'    => $this->getService(),
             'appname'    => $this->getAppNamespace(),
         ]);
     }
@@ -145,5 +146,25 @@ class ControllerGenerator extends Generator
             "\\",
             '/'
         ], '\\', $repository) . 'Repository;';
+    }
+
+
+    /**
+     * Gets repository full class name
+     *
+     * @return string
+     */
+    public function getService()
+    {
+        $serviceGenerator = new ServiceInterfaceGenerator([
+            'name' => $this->name,
+        ]);
+
+        $service = $serviceGenerator->getRootNamespace() . '\\' . $serviceGenerator->getName();
+
+        return 'use ' . str_replace([
+            "\\",
+            '/'
+        ], '\\', $service) . 'Service;';
     }
 }

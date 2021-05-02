@@ -101,7 +101,7 @@ class BindingsGenerator extends Generator
         return str_replace([
             "\\",
             '/'
-        ], '\\', $repository) . 'Service';
+        ], '\\', $service) . 'Service';
     }
 
     /**
@@ -139,7 +139,7 @@ class BindingsGenerator extends Generator
         return str_replace([
             "\\",
             '/'
-        ], '\\', $repository) . 'ServiceEntity';
+        ], '\\', $service) . 'ServiceEntity';
     }
 
     /**

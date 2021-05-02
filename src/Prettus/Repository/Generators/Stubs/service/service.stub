@@ -12,7 +12,7 @@ use App\Services\Contracts\$CLASS$Service as $CLASS$ServiceInterface;
 /**
  * @method bool destroy
  */
-class $CLASS$Service  extends BaseService implements $CLASS$ServiceInterface
+class $CLASS$ServiceEntity  extends BaseService implements $CLASS$ServiceInterface
 {
 
     /**
@@ -98,8 +98,9 @@ class $CLASS$Service  extends BaseService implements $CLASS$ServiceInterface
         $this->beginTransaction();
 
         try {
-            $model = $this->repository->find($id);
-            if (!$model->update($data)) {
+            $model = $this->repository->update($request->all(), $id);
+
+            if (!$model) {
                 throw new Exception('An error occurred while updating a $CLASS$');
             }
 
