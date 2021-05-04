@@ -1,7 +1,8 @@
 <?php
 
 $NAMESPACE$
-
+use App\Http\Resources\DTOCollection;
+use App\Http\Resources\$CLASS$ as $CLASS$Dto;
 use Illuminate\Http\Request;
 
 use $APPNAME$Http\Requests;
@@ -41,6 +42,7 @@ class $CONTROLLER$Controller extends Controller
      *
      * @param $CLASS$Repository $repository
      * @param $CLASS$Validator $validator
+     * @param $CLASS$Service $service
      */
     public function __construct($CLASS$Repository $repository, $CLASS$Validator $validator, $CLASS$Service $service)
     {
@@ -54,14 +56,13 @@ class $CONTROLLER$Controller extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
+        $limit = $request->get('limit', 10);
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $$PLURAL$ = $this->repository->all();
 
-        return response()->json([
-            'data' => $$PLURAL$,
-        ]);
+        $$PLURAL$ = new DTOCollection($this->repository->paginate($limit));
+        return response()->json($$PLURAL$);
     }
 
     /**
@@ -83,7 +84,7 @@ class $CONTROLLER$Controller extends Controller
 
             $response = [
                 'message' => '$CLASS$ created.',
-                'data'    => $$SINGULAR$->toArray(),
+                'data'    => new $CLASS$Dto($$SINGULAR$),
             ];
 
             return response()->json($response);
@@ -105,7 +106,7 @@ class $CONTROLLER$Controller extends Controller
      */
     public function show($id)
     {
-        $$SINGULAR$ = $this->repository->find($id);
+        $$SINGULAR$ = new $CLASS$Dto($this->repository->findOrFail($id));
 
         return response()->json([
            'data' => $$SINGULAR$,
@@ -121,7 +122,7 @@ class $CONTROLLER$Controller extends Controller
      */
     public function edit($id)
     {
-        $$SINGULAR$ = $this->repository->find($id);
+        $$SINGULAR$ = new $CLASS$Dto($this->repository->findOrFail($id));
 
         return response()->json([
                    'data' => $$SINGULAR$,
@@ -148,7 +149,7 @@ class $CONTROLLER$Controller extends Controller
 
             $response = [
                 'message' => '$CLASS$ updated.',
-                'data'    => $$SINGULAR$->toArray(),
+                'data'    => new $CLASS$Dto($$SINGULAR$),
             ];
 
             return response()->json($response);
