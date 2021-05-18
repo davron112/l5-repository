@@ -61,7 +61,7 @@ class $CONTROLLER$Controller extends Controller
         $limit = $request->get('limit', 10);
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
 
-        $$PLURAL$ = new DTOCollection($this->repository->paginate($limit));
+        $$PLURAL$ = new DTOCollection($this->repository->paginate($limit), '$CLASS');
         return response()->json($$PLURAL$);
     }
 

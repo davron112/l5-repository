@@ -28,12 +28,12 @@ class BindingsGenerator extends Generator
 
         // Add entity repository binding to the repository service provider
         $provider = \File::get($this->getPath());
-        $repositoryInterface = '\\' . $this->getRepository() . "::class";
+        //$repositoryInterface = '\\' . $this->getRepository() . "::class";
         $serviceInterface = '\\' . $this->getService() . "::class";
-        $repositoryEloquent = '\\' . $this->getEloquentRepository() . "::class";
+        //$repositoryEloquent = '\\' . $this->getEloquentRepository() . "::class";
         $serviceEntity = '\\' . $this->getEntityService() . "::class";
-        \File::put($this->getPath(), str_replace($this->bindPlaceholder, "\$this->app->bind({$repositoryInterface}, $repositoryEloquent);" . PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
-        \File::put($this->getServicePath(), str_replace($this->bindPlaceholder, "\$this->app->bind({$serviceInterface}, $serviceEntity);" . PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
+        //\File::put($this->getPath(), str_replace($this->bindPlaceholder, "\$this->app->bind({$repositoryInterface}, $repositoryEloquent);" . PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
+        \File::put($this->getPath(), str_replace($this->bindPlaceholder, "\$this->app->bind({$serviceInterface}, $serviceEntity);" . PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
     }
 
     /**
