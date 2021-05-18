@@ -44,8 +44,11 @@ class $CONTROLLER$Controller extends Controller
      * @param $CLASS$Validator $validator
      * @param $CLASS$Service $service
      */
-    public function __construct($CLASS$Repository $repository, $CLASS$Validator $validator, $CLASS$Service $service)
-    {
+    public function __construct(
+        $CLASS$Repository $repository,
+        $CLASS$Validator $validator,
+        $CLASS$Service $service
+    ) {
         $this->repository = $repository;
         $this->validator  = $validator;
         $this->service    = $service;
