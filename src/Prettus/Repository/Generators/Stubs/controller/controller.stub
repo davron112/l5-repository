@@ -2,9 +2,9 @@
 
 $NAMESPACE$
 use App\Http\Resources\DTOCollection;
-use App\Http\Resources\$CLASS$ as $CLASS$Dto;
+use App\Http\Resources\$CLASS$Resource as $CLASS$Dto;
 use Illuminate\Http\Request;
-
+use App\Http\Controllers\Controller;
 use $APPNAME$Http\Requests;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;

@@ -64,6 +64,9 @@ class $CLASS$ServiceEntity  extends BaseService implements $CLASS$ServiceInterfa
     {
         $this->beginTransaction();
         try {
+            /**
+             * @var $CLASS$ $model
+             */
             $model = $this->repository->newInstance();
 
             $model->fill($data);
@@ -98,7 +101,10 @@ class $CLASS$ServiceEntity  extends BaseService implements $CLASS$ServiceInterfa
         $this->beginTransaction();
 
         try {
-            $model = $this->repository->update($request->all(), $id);
+            /**
+             * @var $CLASS$ $model
+             */
+            $model = $this->repository->update($data, $id);
 
             if (!$model) {
                 throw new Exception('An error occurred while updating a $CLASS$');
@@ -130,6 +136,9 @@ class $CLASS$ServiceEntity  extends BaseService implements $CLASS$ServiceInterfa
 
         try {
             $bufferCategory = [];
+            /**
+             * @var $CLASS$ $model
+             */
             $model = $this->repository->find($id);
 
             if (!$model->delete()) {

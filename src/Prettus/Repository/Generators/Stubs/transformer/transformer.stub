@@ -2,7 +2,7 @@
 
 $NAMESPACE$
 
-use League\Fractal\TransformerAbstract;
+use Illuminate\Http\Resources\Json\JsonResource;
 use $MODEL$;
 
 /**
@@ -10,16 +10,16 @@ use $MODEL$;
  *
  * @package $NAMESPACE$
  */
-class $CLASS$Transformer extends TransformerAbstract
+class $CLASS$Resource extends JsonResource
 {
     /**
      * Transform the $CLASS$ entity.
      *
-     * @param \$MODEL$ $model
+     * @param  \Illuminate\Http\Request  $request
      *
      * @return array
      */
-    public function transform($CLASS$ $model)
+    public function toArray()
     {
         return [
             'id'         => (int) $model->id,
