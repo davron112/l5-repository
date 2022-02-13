@@ -237,7 +237,7 @@ return [
             'repositories'          => 'Repositories',
             'service_interfaces'    => 'Services\Contracts',
             'interfaces'            => 'Repositories\Contracts',
-            'transformers'          => 'Transformers',
+            'transformers'          => 'Http/Resources',
             'presenters'            => 'Presenters',
             'validators'            => 'Validators',
             'controllers'           => 'Http/Controllers/Api/v1',
