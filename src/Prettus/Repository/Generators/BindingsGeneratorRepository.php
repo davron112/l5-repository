@@ -6,7 +6,7 @@ namespace Prettus\Repository\Generators;
  * @package Prettus\Repository\Generators
  * @author Anderson Andrade <contato@andersonandra.de>
  */
-class BindingsGenerator extends Generator
+class BindingsGeneratorRepository extends Generator
 {
 
     /**
@@ -24,13 +24,11 @@ class BindingsGenerator extends Generator
 
     public function run()
     {
-
-
         // Add entity repository binding to the repository service provider
         $provider = \File::get($this->getPath());
-        $serviceInterface = '\\' . $this->getService() . "::class";
-        $serviceEntity = '\\' . $this->getEntityService() . "::class";
-        \File::put($this->getPath(), str_replace($this->bindPlaceholder, "\$this->app->bind({$serviceInterface}, $serviceEntity);" . PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
+        $repositoryInterface = '\\' . $this->getRepository() . "::class";
+        $repositoryEloquent = '\\' . $this->getEloquentRepository() . "::class";
+        \File::put($this->getPath(), str_replace($this->bindPlaceholder, "\$this->app->bind({$repositoryInterface}, $repositoryEloquent);" . PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
     }
 
     /**
@@ -68,18 +66,18 @@ class BindingsGenerator extends Generator
      *
      * @return string
      */
-    public function getService()
+    public function getRepository()
     {
-        $serviceGenerator = new ServiceInterfaceGenerator([
+        $repositoryGenerator = new RepositoryInterfaceGenerator([
             'name' => $this->name,
         ]);
 
-        $service = $serviceGenerator->getRootNamespace() . '\\' . $serviceGenerator->getName();
+        $repository = $repositoryGenerator->getRootNamespace() . '\\' . $repositoryGenerator->getName();
 
         return str_replace([
             "\\",
             '/'
-        ], '\\', $service) . 'Service';
+        ], '\\', $repository) . 'Repository';
     }
 
     /**
@@ -108,7 +106,7 @@ class BindingsGenerator extends Generator
      */
     public function getEntityService()
     {
-        $serviceGenerator = new ServiceEntityGenerator([
+        $serviceGenerator = new ServiceGenerator([
             'name' => $this->name,
         ]);
 
@@ -117,7 +115,7 @@ class BindingsGenerator extends Generator
         return str_replace([
             "\\",
             '/'
-        ], '\\', $service) . 'ServiceEntity';
+        ], '\\', $service) . 'Service';
     }
 
     /**
@@ -139,7 +137,7 @@ class BindingsGenerator extends Generator
     {
 
         return array_merge(parent::getReplacements(), [
-            'service' => $this->getService(),
+            'repository' => $this->getRepository(),
             'eloquent' => $this->getEloquentRepository(),
             'entity' => $this->getEntityService(),
             'placeholder' => $this->bindPlaceholder,

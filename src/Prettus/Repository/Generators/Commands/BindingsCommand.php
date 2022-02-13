@@ -5,6 +5,7 @@ use File;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Prettus\Repository\Generators\BindingsGenerator;
+use Prettus\Repository\Generators\BindingsGeneratorRepository;
 use Prettus\Repository\Generators\FileAlreadyExistsException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -46,6 +47,7 @@ class BindingsCommand extends Command
      */
     public function handle(){
         $this->laravel->call([$this, 'fire'], func_get_args());
+        $this->laravel->call([$this, 'fireRepository'], func_get_args());
     }
 
     /**
@@ -57,6 +59,39 @@ class BindingsCommand extends Command
     {
         try {
             $bindingGenerator = new BindingsGenerator([
+                'name' => $this->argument('name'),
+                'force' => $this->option('force'),
+            ]);
+            // generate repository service provider
+            if (!file_exists($bindingGenerator->getPath())) {
+                $this->call('make:provider', [
+                    'name' => $bindingGenerator->getConfigGeneratorClassPath($bindingGenerator->getPathConfigNode()),
+                ]);
+                // placeholder to mark the place in file where to prepend repository bindings
+                $provider = File::get($bindingGenerator->getPath());
+                File::put($bindingGenerator->getPath(), vsprintf(str_replace('//', '%s', $provider), [
+                    '//',
+                    $bindingGenerator->bindPlaceholder
+                ]));
+            }
+            $bindingGenerator->run();
+            $this->info($this->type . ' created successfully.');
+        } catch (FileAlreadyExistsException $e) {
+            $this->error($this->type . ' already exists!');
+
+            return false;
+        }
+    }
+
+    /**
+     * Execute the command.
+     *
+     * @return void
+     */
+    public function fireRepository()
+    {
+        try {
+            $bindingGenerator = new BindingsGeneratorRepository([
                 'name' => $this->argument('name'),
                 'force' => $this->option('force'),
             ]);
