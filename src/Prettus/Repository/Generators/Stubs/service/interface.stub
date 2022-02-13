@@ -26,7 +26,7 @@ interface $CLASS$Service extends BaseService
      * @param  array  $data
      * @return $CLASS$
      */
-    public function update($id, array $data);
+    public function update(int $id, array $data);
 
     /**
      * Update block in the storage.
@@ -34,5 +34,5 @@ interface $CLASS$Service extends BaseService
      * @param  int  $id
      * @return bool
      */
-    public function delete($id);
+    public function delete(int $id);
 }

@@ -3,26 +3,24 @@
 $NAMESPACE$
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use $MODEL$;
 
 /**
- * Class $CLASS$Transformer.
+ * Class $CLASS$Resource.
  *
  * @package $NAMESPACE$
  */
 class $CLASS$Resource extends JsonResource
 {
     /**
-     * Transform the $CLASS$ entity.
+     *  Transform the $CLASS$ to array.
      *
      * @param  \Illuminate\Http\Request  $request
-     *
      * @return array
-     */
-    public function toArray()
+    */
+    public function toArray($request)
     {
         return [
-            'id'         => (int) $model->id,
+            'id'         => (int) $this->id,
 
             /* place your other model properties here */
 

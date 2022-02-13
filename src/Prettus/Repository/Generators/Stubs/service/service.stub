@@ -26,11 +26,6 @@ class $CLASS$ServiceEntity  extends BaseService implements $CLASS$ServiceInterfa
     protected $repository;
 
     /**
-     * Language $language
-     */
-    protected $language;
-
-    /**
      * @var Logger $logger
      */
     protected $logger;
@@ -87,16 +82,16 @@ class $CLASS$ServiceEntity  extends BaseService implements $CLASS$ServiceInterfa
     }
 
     /**
-     * Update block in the storage.
+     * Update $CLASS$
      *
      * @param  int  $id
      * @param  array  $data
      *
      * @return $CLASS$
      *
-     * @throws
+     * @throws \Exception
      */
-    public function update($id, array $data)
+    public function update(int $id, array $data)
     {
         $this->beginTransaction();
 
@@ -120,16 +115,17 @@ class $CLASS$ServiceEntity  extends BaseService implements $CLASS$ServiceInterfa
         $this->commit();
         return $model;
     }
+
     /**
-     * Delete block in the storage.
+     * Delete $CLASS$
      *
      * @param  int  $id
      *
      * @return bool
      *
-     * @throws
+     * @throws \Exception
      */
-    public function delete($id)
+    public function delete(int $id)
     {
 
         $this->beginTransaction();
@@ -151,6 +147,7 @@ class $CLASS$ServiceEntity  extends BaseService implements $CLASS$ServiceInterfa
             $this->rollback($e, 'An error occurred while deleting an $CLASS$.', [
                 'id'   => $id,
             ]);
+            return false;
         }
         $this->commit();
         return true;
